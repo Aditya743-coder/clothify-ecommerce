@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import useMobile from '../hooks/useMobile';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -8,6 +9,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const { register } = useAuth();
     const navigate = useNavigate();
+    const isMobile = useMobile(768);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +23,14 @@ const Signup = () => {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '100px auto', padding: '40px', boxShadow: 'var(--shadow)', borderRadius: 'var(--radius)' }}>
+        <div style={{ 
+            maxWidth: isMobile ? '100%' : '400px', 
+            margin: isMobile ? '40px 16px' : '100px auto', 
+            padding: isMobile ? '30px 20px' : '40px', 
+            boxShadow: '0 20px 60px rgba(0,0,0,0.08)', 
+            borderRadius: '24px',
+            backgroundColor: '#fff'
+        }}>
             <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>Sign Up</h2>
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '15px' }}>

@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Trash2, ShoppingBag, ArrowRight, CreditCard, ShieldCheck, Truck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import useMobile from '../hooks/useMobile';
 
 const Cart = () => {
     const { cartItems, totalPrice, refreshCart, removeFromCart, updateQuantity } = useCart();
     const { token } = useAuth();
+    const isMobile = useMobile(1024);
 
     const shipping = totalPrice > 2500 ? 0 : 250;
     const tax = Math.round(totalPrice * 0.12); // 12% GST
@@ -44,39 +46,44 @@ const Cart = () => {
     );
 
     return (
-        <div className="container" style={{ padding: '80px 40px' }}>
-            <h1 style={{ fontSize: '42px', fontWeight: '900', marginBottom: '60px', letterSpacing: '-1.5px' }}>YOUR SHOPPING BAG</h1>
+        <div className="container" style={{ padding: 'clamp(40px, 6vh, 80px) clamp(16px, 4vw, 40px)' }}>
+            <h1 style={{ fontSize: 'clamp(32px, 8vw, 42px)', fontWeight: '900', marginBottom: 'clamp(30px, 5vh, 60px)', letterSpacing: '-1.5px' }}>YOUR SHOPPING BAG</h1>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '80px', alignItems: 'start' }}>
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr', 
+                gap: 'clamp(30px, 5vw, 80px)', 
+                alignItems: 'start' 
+            }}>
                 {/* Items */}
                 <div style={{ display: 'grid', gap: '40px' }}>
                     {cartItems.map(item => (
-                        <div key={item.id} className="reveal active" style={{ display: 'flex', gap: '30px', paddingBottom: '40px', borderBottom: '1px solid #eee' }}>
-                            <div style={{ width: '180px', height: '240px', borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid #eee' }}>
+                        <div key={item.id} className="reveal active" style={{ display: 'flex', gap: 'clamp(15px, 3vw, 30px)', paddingBottom: 'clamp(20px, 4vh, 40px)', borderBottom: '1px solid #eee' }}>
+                            <div style={{ width: 'clamp(100px, 25vw, 180px)', height: 'clamp(140px, 35vw, 240px)', borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid #eee', flexShrink: 0 }}>
                                 <img src={item.image_url} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             </div>
                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                 <div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                        <h3 style={{ fontSize: '22px', fontWeight: '700' }}>{item.name}</h3>
-                                        <span style={{ fontWeight: '900', fontSize: '22px' }}>₹{item.price * item.quantity}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', gap: '10px' }}>
+                                        <h3 style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: '700' }}>{item.name}</h3>
+                                        <span style={{ fontWeight: '900', fontSize: 'clamp(16px, 3vw, 22px)' }}>₹{item.price * item.quantity}</span>
                                     </div>
                                     <p style={{ color: 'var(--text-muted)', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Premium Collection</p>
                                 </div>
 
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: '50px', padding: '5px 15px', gap: '15px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(20px, 4vw, 40px)', flexWrap: 'wrap' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: '50px', padding: '4px 12px', gap: '12px' }}>
                                         <button
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: '900', fontSize: '18px' }}>-</button>
-                                        <span style={{ fontWeight: '900', minWidth: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: '900', fontSize: '16px' }}>-</button>
+                                        <span style={{ fontWeight: '900', minWidth: '15px', textAlign: 'center', fontSize: '14px' }}>{item.quantity}</span>
                                         <button
                                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: '900', fontSize: '18px' }}>+</button>
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: '900', fontSize: '16px' }}>+</button>
                                     </div>
                                     <button
                                         onClick={() => removeFromCart(item.id)}
-                                        style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: '700' }}
+                                        style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '700' }}
                                         onMouseOver={e => e.currentTarget.style.color = 'var(--accent)'}
                                         onMouseOut={e => e.currentTarget.style.color = '#888'}
                                     >
@@ -89,8 +96,15 @@ const Cart = () => {
                 </div>
 
                 {/* Summary */}
-                <div className="glass" style={{ padding: '50px', borderRadius: 'var(--radius)', position: 'sticky', top: '120px', boxShadow: 'var(--shadow-md)', border: '1px solid rgba(0,0,0,0.05)' }}>
-                    <h2 style={{ fontSize: '26px', fontWeight: '900', marginBottom: '40px', letterSpacing: '-0.5px' }}>ORDER SUMMARY</h2>
+                <div className="glass" style={{ 
+                    padding: 'clamp(24px, 5vw, 50px)', 
+                    borderRadius: 'var(--radius)', 
+                    position: isMobile ? 'static' : 'sticky', 
+                    top: '120px', 
+                    boxShadow: 'var(--shadow-md)', 
+                    border: '1px solid rgba(0,0,0,0.05)' 
+                }}>
+                    <h2 style={{ fontSize: 'clamp(20px, 4vw, 26px)', fontWeight: '900', marginBottom: 'clamp(20px, 4vh, 40px)', letterSpacing: '-0.5px' }}>ORDER SUMMARY</h2>
 
                     <div style={{ display: 'grid', gap: '20px', marginBottom: '40px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

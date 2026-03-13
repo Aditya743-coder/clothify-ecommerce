@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import useMobile from '../hooks/useMobile';
 
 const BRANDS = ['Roadster', 'HRX', 'WROGN', 'Mast & Harbour', 'Anouk', 'Puma', 'H&M', 'Zara', 'Nike', 'Levis'];
 
@@ -46,6 +47,7 @@ const ProductCard = ({ product }) => {
                 transform: hovered ? 'translateY(-6px)' : 'none',
                 cursor: 'pointer',
                 position: 'relative',
+                minWidth: '160px',
             }}
         >
             {/* ── Image ── */}
@@ -112,15 +114,15 @@ const ProductCard = ({ product }) => {
                     ⭐ {rating} <span style={{ color: '#aaa', fontWeight: 400 }}>({reviews})</span>
                 </div>
 
-                {/* Hover slide-up Quick Add */}
+                {/* Hover slide-up Quick Add - Visible on mobile or hover */}
                 <div style={{
                     position: 'absolute', bottom: 0, left: 0, right: 0,
-                    transform: hovered ? 'translateY(0)' : 'translateY(100%)',
+                    transform: (hovered || useMobile(768)) ? 'translateY(0)' : 'translateY(100%)',
                     transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
                     background: added
                         ? 'linear-gradient(135deg, #00b09b, #22c55e)'
                         : 'linear-gradient(135deg, #ff3f6c, #ff6b35)',
-                    padding: '13px 16px',
+                    padding: 'clamp(8px, 2vh, 13px) 16px',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                 }}>
                     <button
@@ -143,7 +145,7 @@ const ProductCard = ({ product }) => {
             </div>
 
             {/* ── Info ── */}
-            <div style={{ padding: '14px 16px 18px', display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+            <div style={{ padding: 'clamp(10px, 2vh, 14px) clamp(10px, 2vw, 16px) clamp(14px, 3vh, 18px)', display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
                 <span style={{
                     fontSize: '10px', fontWeight: 900, letterSpacing: '2px',
                     color: '#aaa', textTransform: 'uppercase',

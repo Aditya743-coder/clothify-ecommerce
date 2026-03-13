@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import useMobile from '../hooks/useMobile';
 
 const AdminAddProduct = () => {
     const { token, user } = useAuth();
+    const isMobile = useMobile(768);
     const [productData, setProductData] = useState({
         name: '',
         description: '',
@@ -30,9 +32,16 @@ const AdminAddProduct = () => {
     };
 
     return (
-        <div className="container" style={{ padding: '60px 40px', maxWidth: '800px' }}>
-            <h1 style={{ fontSize: '32px', fontWeight: '900', marginBottom: '40px' }}>ADD NEW PRODUCT</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '25px', backgroundColor: '#fff', padding: '40px', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-md)' }}>
+        <div className="container" style={{ padding: isMobile ? '30px 16px' : '60px 40px', maxWidth: '800px' }}>
+            <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '900', marginBottom: isMobile ? '20px' : '40px' }}>ADD NEW PRODUCT</h1>
+            <form onSubmit={handleSubmit} style={{ 
+                display: 'grid', 
+                gap: isMobile ? '20px' : '25px', 
+                backgroundColor: '#fff', 
+                padding: isMobile ? '20px' : '40px', 
+                borderRadius: '24px', 
+                boxShadow: '0 20px 60px rgba(0,0,0,0.06)' 
+            }}>
                 <div>
                     <label style={{ fontSize: '12px', fontWeight: '900', marginBottom: '10px', display: 'block' }}>PRODUCT NAME</label>
                     <input
@@ -49,7 +58,7 @@ const AdminAddProduct = () => {
                         style={{ width: '100%', padding: '15px', border: '1px solid #eee', borderRadius: 'var(--radius)', outline: 'none', minHeight: '120px' }}
                     />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '20px' }}>
                     <div>
                         <label style={{ fontSize: '12px', fontWeight: '900', marginBottom: '10px', display: 'block' }}>PRICE (₹)</label>
                         <input
@@ -70,7 +79,7 @@ const AdminAddProduct = () => {
                         </select>
                     </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '20px' }}>
                     <div>
                         <label style={{ fontSize: '12px', fontWeight: '900', marginBottom: '10px', display: 'block' }}>SUB CATEGORY</label>
                         <input

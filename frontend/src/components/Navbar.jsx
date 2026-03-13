@@ -42,13 +42,13 @@ const Navbar = () => {
                 position: 'fixed',
                 top: 0,
                 left: isMenuOpen ? 0 : '-100%',
-                width: '80%',
+                width: 'clamp(280px, 80%, 350px)',
                 height: '100%',
                 backgroundColor: '#fff',
                 zIndex: 1200,
-                transition: 'left 0.3s ease-in-out',
-                boxShadow: '4px 0 10px rgba(0,0,0,0.1)',
-                padding: '20px'
+                transition: 'left 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
+                padding: '30px 24px'
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                     <span style={{ fontWeight: '900', fontSize: '20px' }}>MENU</span>
@@ -79,11 +79,11 @@ const Navbar = () => {
                 top: 0,
                 zIndex: 1000,
                 backgroundColor: isScrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)',
-                padding: isScrolled ? '12px 0' : '20px 0',
-                transition: 'all 0.4s ease',
+                padding: isScrolled ? 'clamp(8px, 2vh, 12px) 0' : 'clamp(12px, 3vh, 20px) 0',
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 borderBottom: isScrolled ? '1px solid #eee' : '1px solid transparent'
             }}>
-                <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
+                <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: isScrolled ? 'clamp(50px, 8vh, 60px)' : 'clamp(60px, 10vh, 80px)' }}>
                     {/* Hamburger for Mobile */}
                     <div className="mobile-only" style={{ cursor: 'pointer' }} onClick={() => setIsMenuOpen(true)}>
                         <div style={{ width: '24px', height: '2px', backgroundColor: '#282c3f', marginBottom: '5px' }}></div>
@@ -92,9 +92,9 @@ const Navbar = () => {
                     </div>
 
                     {/* Logo */}
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <div style={{ backgroundColor: '#ff3f6c', color: '#fff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '18px' }}>C</div>
-                        <span style={{ fontWeight: '900', fontSize: '20px', letterSpacing: '-0.5px', color: '#282c3f' }}>CLOTHIFY</span>
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 1vw, 8px)' }}>
+                        <div style={{ backgroundColor: '#ff3f6c', color: '#fff', width: 'clamp(28px, 4vw, 32px)', height: 'clamp(28px, 4vw, 32px)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: 'clamp(14px, 2vw, 18px)' }}>C</div>
+                        <span style={{ fontWeight: '900', fontSize: 'clamp(16px, 3vw, 20px)', letterSpacing: '-0.5px', color: '#282c3f' }}>CLOTHIFY</span>
                     </Link>
 
                     {/* Navigation - Desktop */}
@@ -140,7 +140,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Actions */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2vw, 15px)' }}>
                         <div className="desktop-only" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/login')}>
                             <User size={18} color="#282c3f" />
                             <span style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px' }}>Profile</span>

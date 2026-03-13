@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import { Search, ArrowRight, ShoppingBag, ChevronRight, ChevronLeft, Star, Flame, Sparkles, Zap } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import useMobile from '../hooks/useMobile';
 
 /* ─────────────────────────────── helpers ─────────────────────────────── */
 const useIntersection = (ref, opts = {}) => {
@@ -100,10 +101,10 @@ const CIRCULAR_CATEGORIES = [
 const Marquee = ({ items }) => {
     const doubled = [...items, ...items];
     return (
-        <div style={{ overflow: 'hidden', background: '#0f0f0f', padding: '18px 0', borderTop: '1px solid #222', borderBottom: '1px solid #222' }}>
-            <div style={{ display: 'flex', gap: '80px', animation: 'marquee 25s linear infinite', whiteSpace: 'nowrap', alignItems: 'center' }}>
+        <div style={{ overflow: 'hidden', background: '#0f0f0f', padding: 'clamp(12px, 2vh, 18px) 0', borderTop: '1px solid #222', borderBottom: '1px solid #222' }}>
+            <div style={{ display: 'flex', gap: 'clamp(40px, 5vw, 80px)', animation: 'marquee 25s linear infinite', whiteSpace: 'nowrap', alignItems: 'center' }}>
                 {doubled.map((b, i) => (
-                    <span key={i} style={{ fontSize: '22px', fontWeight: 900, color: i % 2 === 0 ? '#fff' : '#ff3f6c', letterSpacing: '4px', flexShrink: 0 }}>
+                    <span key={i} style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 900, color: i % 2 === 0 ? '#fff' : '#ff3f6c', letterSpacing: 'clamp(2px, 1vw, 4px)', flexShrink: 0 }}>
                         {b} <span style={{ color: '#333', fontSize: '12px' }}>✦</span>
                     </span>
                 ))}
@@ -199,11 +200,17 @@ const StyleQuiz = ({ navigate }) => {
     );
 };
 
-/** Editorial Shop-The-Look bento */
-const ShopTheLook = ({ navigate }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: '14px' }}>
-        {/* Big left card */}
-        <div onClick={() => navigate('/?category=women')} style={{ gridRow: '1 / 3', borderRadius: '20px', overflow: 'hidden', position: 'relative', cursor: 'pointer', minHeight: '460px' }}
+const ShopTheLook = ({ navigate }) => {
+    const isMobile = useMobile(768);
+    return (
+        <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
+            gridTemplateRows: isMobile ? 'auto auto auto' : 'auto auto', 
+            gap: 'clamp(10px, 2vw, 14px)' 
+        }}>
+            {/* Big left card */}
+            <div onClick={() => navigate('/?category=women')} style={{ gridRow: isMobile ? 'auto' : '1 / 3', borderRadius: '20px', overflow: 'hidden', position: 'relative', cursor: 'pointer', minHeight: 'clamp(300px, 50vh, 460px)' }}
             onMouseEnter={e => e.currentTarget.querySelector('img').style.transform = 'scale(1.05)'}
             onMouseLeave={e => e.currentTarget.querySelector('img').style.transform = 'scale(1)'}>
             <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900" alt="Women" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} />
@@ -237,7 +244,8 @@ const ShopTheLook = ({ navigate }) => (
             </div>
         </div>
     </div>
-);
+    );
+};
 
 /** Stats strip */
 const StatsBadges = () => (
@@ -248,10 +256,10 @@ const StatsBadges = () => (
             { icon: '⚡', num: '24hr', label: 'Express Delivery' },
             { icon: '🔒', num: '100%', label: 'Secure Payments' },
         ].map((s, i) => (
-            <div key={i} style={{ background: '#fff', padding: '28px 20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '28px', marginBottom: '6px' }}>{s.icon}</div>
-                <div style={{ fontSize: '24px', fontWeight: 900, color: '#0f0f0f' }}>{s.num}</div>
-                <div style={{ fontSize: '12px', color: '#888', fontWeight: 600, marginTop: '4px', letterSpacing: '0.5px' }}>{s.label}</div>
+            <div key={i} style={{ background: '#fff', padding: 'clamp(20px, 4vh, 28px) clamp(10px, 2vw, 20px)', textAlign: 'center' }}>
+                <div style={{ fontSize: 'clamp(22px, 4vw, 28px)', marginBottom: '6px' }}>{s.icon}</div>
+                <div style={{ fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, color: '#0f0f0f' }}>{s.num}</div>
+                <div style={{ fontSize: '10px', color: '#888', fontWeight: 600, marginTop: '4px', letterSpacing: '0.5px' }}>{s.label}</div>
             </div>
         ))}
     </div>
@@ -260,6 +268,7 @@ const StatsBadges = () => (
 /* ─────────────────────────────── MAIN HOME ─────────────────────────────── */
 const Home = () => {
     const { user } = useAuth();
+    const isMobile = useMobile(768);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const location = useLocation();
@@ -385,13 +394,13 @@ const Home = () => {
                     </div>
                 ))}
                 {/* Text */}
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 clamp(20px, 8vw, 120px)' }}>
-                    <div key={activeSlide} style={{ color: '#fff', animation: 'fadeIn 0.7s ease' }}>
-                        <span style={{ fontSize: '11px', fontWeight: 900, letterSpacing: '4px', color: slide.accent, textTransform: 'uppercase' }}>✦ {slide.eyebrow}</span>
-                        <h1 style={{ fontSize: 'clamp(44px, 9vw, 100px)', fontWeight: 900, lineHeight: 0.95, marginTop: '12px', whiteSpace: 'pre-line', textShadow: '0 4px 30px rgba(0,0,0,0.3)' }}>{slide.title}</h1>
-                        <p style={{ fontSize: 'clamp(14px, 2vw, 20px)', opacity: 0.85, marginTop: '16px', maxWidth: '440px', lineHeight: 1.5 }}>{slide.sub}</p>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 clamp(16px, 6vw, 120px)' }}>
+                    <div key={activeSlide} style={{ color: '#fff', animation: 'fadeIn 0.7s ease', maxWidth: '100%' }}>
+                        <span style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 900, letterSpacing: 'clamp(2px, 1vw, 4px)', color: slide.accent, textTransform: 'uppercase' }}>✦ {slide.eyebrow}</span>
+                        <h1 style={{ fontSize: 'clamp(32px, 8vw, 100px)', fontWeight: 900, lineHeight: 0.95, marginTop: 'clamp(8px, 2vh, 12px)', whiteSpace: 'pre-line', textShadow: '0 4px 30px rgba(0,0,0,0.3)' }}>{slide.title}</h1>
+                        <p style={{ fontSize: 'clamp(13px, 3vw, 20px)', opacity: 0.85, marginTop: '16px', maxWidth: '440px', lineHeight: 1.5 }}>{slide.sub}</p>
                         <button onClick={() => navigate(slide.ctaLink)}
-                            style={{ marginTop: '28px', background: slide.accent === '#ff3f6c' ? '#ff3f6c' : '#fff', color: slide.accent === '#ff3f6c' ? '#fff' : '#000', border: 'none', borderRadius: '50px', padding: '14px 32px', fontWeight: 900, fontSize: '13px', letterSpacing: '1.5px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                            style={{ marginTop: 'clamp(20px, 4vh, 28px)', background: slide.accent === '#ff3f6c' ? '#ff3f6c' : '#fff', color: slide.accent === '#ff3f6c' ? '#fff' : '#000', border: 'none', borderRadius: '50px', padding: 'clamp(10px, 2vh, 14px) clamp(24px, 4vw, 32px)', fontWeight: 900, fontSize: 'clamp(11px, 2vw, 13px)', letterSpacing: '1.5px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
                             {slide.cta} <ArrowRight size={15} />
                         </button>
                     </div>
@@ -413,13 +422,13 @@ const Home = () => {
             {/* ── CATEGORY CIRCLES ── */}
             <div className="container" style={{ padding: '50px 0 10px' }}>
                 <Reveal>
-                    <div style={{ display: 'flex', gap: 'clamp(20px, 4vw, 50px)', overflowX: 'auto', scrollbarWidth: 'none', justifyContent: 'center', paddingBottom: '8px' }}>
+                    <div style={{ display: 'flex', gap: 'clamp(20px, 4vw, 50px)', overflowX: 'auto', justifyContent: isMobile ? 'flex-start' : 'center', paddingBottom: '12px', paddingLeft: isMobile ? '16px' : '0' }} className="hide-scrollbar">
                         {CIRCULAR_CATEGORIES.map((item, i) => (
                             <div key={i} onClick={() => navigate(`/?category=${item.cat}`)} style={{ textAlign: 'center', cursor: 'pointer', flexShrink: 0 }} className="category-circle">
-                                <div style={{ width: 'clamp(64px, 8vw, 90px)', height: 'clamp(64px, 8vw, 90px)', borderRadius: '50%', overflow: 'hidden', marginBottom: 8, border: '2px solid #f0f0f0', boxShadow: '0 4px 14px rgba(0,0,0,0.08)' }}>
+                                <div style={{ width: 'clamp(64px, 12vw, 90px)', height: 'clamp(64px, 12vw, 90px)', borderRadius: '50%', overflow: 'hidden', marginBottom: 8, border: '2px solid #f0f0f0', boxShadow: '0 4px 14px rgba(0,0,0,0.08)' }}>
                                     <img src={item.img} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 </div>
-                                <span style={{ fontSize: '11px', fontWeight: 700, color: '#282c3f', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{item.name}</span>
+                                <span style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, color: '#282c3f', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{item.name}</span>
                             </div>
                         ))}
                     </div>
@@ -432,9 +441,9 @@ const Home = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
                         <div>
                             <span style={{ fontSize: '11px', fontWeight: 900, letterSpacing: '3px', color: '#ff3f6c' }}>✦ CURATED FOR YOU</span>
-                            <h2 style={{ fontSize: 'clamp(22px, 4vw, 36px)', fontWeight: 900, color: '#0f0f0f', marginTop: '6px' }}>Lookbook 2026</h2>
+                            <h2 style={{ fontSize: 'clamp(20px, 4vw, 36px)', fontWeight: 900, color: '#0f0f0f', marginTop: '6px' }}>Lookbook 2026</h2>
                         </div>
-                        <button onClick={() => navigate('/?category=women')} style={{ background: 'transparent', border: '2px solid #0f0f0f', borderRadius: '50px', padding: '10px 22px', fontWeight: 900, fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', letterSpacing: '1px' }}>VIEW ALL <ArrowRight size={13} /></button>
+                        <button onClick={() => navigate('/?category=women')} style={{ background: 'transparent', border: '2px solid #0f0f0f', borderRadius: '50px', padding: '8px 18px', fontWeight: 900, fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', letterSpacing: '1px' }}>VIEW ALL <ArrowRight size={13} /></button>
                     </div>
                 </Reveal>
                 <LookbookStrip navigate={navigate} />
@@ -488,11 +497,11 @@ const Home = () => {
                 <div className="container" style={{ textAlign: 'center' }}>
                     <Reveal>
                         <span style={{ fontSize: '11px', color: '#ff3f6c', fontWeight: 900, letterSpacing: '3px' }}>✦ STAY IN THE LOOP</span>
-                        <h2 style={{ fontSize: 'clamp(24px, 5vw, 42px)', fontWeight: 900, color: '#fff', marginTop: '12px', marginBottom: '8px' }}>Drop Alerts. Exclusive Deals.</h2>
+                        <h2 style={{ fontSize: 'clamp(22px, 5vw, 42px)', fontWeight: 900, color: '#fff', marginTop: '12px', marginBottom: '8px' }}>Drop Alerts. Exclusive Deals.</h2>
                         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', marginBottom: '32px' }}>No spam. Just the hottest drops, straight to your inbox.</p>
                         <form onSubmit={e => { e.preventDefault(); alert('You\'re in! 🎉'); }} style={{ display: 'flex', gap: '12px', maxWidth: '480px', margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            <input type="email" required placeholder="Enter your email" style={{ flex: 1, minWidth: '220px', padding: '14px 20px', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.07)', color: '#fff', outline: 'none', fontSize: '14px' }} />
-                            <button type="submit" style={{ background: '#ff3f6c', color: '#fff', border: 'none', borderRadius: '50px', padding: '14px 28px', fontWeight: 900, fontSize: '13px', letterSpacing: '1.5px', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
+                            <input type="email" required placeholder="Enter your email" style={{ flex: 1, minWidth: '240px', padding: '14px 20px', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.07)', color: '#fff', outline: 'none', fontSize: '14px' }} />
+                            <button type="submit" style={{ background: '#ff3f6c', color: '#fff', border: 'none', borderRadius: '50px', padding: '14px 32px', fontWeight: 900, fontSize: '13px', letterSpacing: '1.5px', cursor: 'pointer', whiteSpace: 'nowrap' }}>SUBSCRIBE</button>
                         </form>
                     </Reveal>
                 </div>

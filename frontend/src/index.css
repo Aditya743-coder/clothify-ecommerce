@@ -51,15 +51,21 @@ a {
   padding: 0 30px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .container {
-    padding: 0 20px;
+    padding: 0 40px;
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 15px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
   }
 }
 
@@ -102,6 +108,13 @@ a {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 12px 24px;
+    font-size: 12px;
+  }
 }
 
 .btn-primary {
@@ -260,6 +273,12 @@ a {
 
 .section-padding {
   padding: 120px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 0;
+  }
 }
 
 /* Premium Enhancements */
@@ -430,4 +449,19 @@ a {
   .filter-sidebar {
     display: none;
   }
+}
+
+/* Typography Tweaks for Mobile */
+@media (max-width: 768px) {
+  h1 { font-size: clamp(32px, 8vw, 42px) !important; }
+  h2 { font-size: clamp(24px, 6vw, 32px) !important; }
+  h3 { font-size: clamp(20px, 5vw, 24px) !important; }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

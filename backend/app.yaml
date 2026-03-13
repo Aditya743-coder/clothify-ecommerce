@@ -1,0 +1,6 @@
+runtime: nodejs20
+
+env_variables:
+  NODE_ENV: "production"
+  # Add your database/secret variables here if needed
+  JWT_SECRET: "clothify_secret_key"
