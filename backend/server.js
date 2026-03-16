@@ -24,6 +24,23 @@ const SECRET_KEY = process.env.JWT_SECRET || 'clothify_secret_key';
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+
+app.get('/api/debug/db', (req, res) => {
+    const dbPath = process.env.RENDER ? '/data/clothify.db' : (process.env.NODE_ENV === 'production' ? '/tmp/clothify.db' : path.resolve(__dirname, 'clothify.db'));
+    db.get(`SELECT COUNT(*) as count FROM products`, (err, row) => {
+        res.json({
+            dbPath,
+            productCount: row ? row.count : 0,
+            error: err ? err.message : null,
+            env: {
+                RENDER: process.env.RENDER,
+                NODE_ENV: process.env.NODE_ENV
+            }
+        });
+    });
+});
+
 app.use((req, res, next) => {
     debugLog(`[REQUEST] ${req.method} ${req.url}`);
     next();
