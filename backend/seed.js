@@ -299,5 +299,6 @@ db.serialize(() => {
             db.run(`INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)`, ['admin', 'admin@clothify.com', adminHash, 1]);
         }
         console.log('[SEED] Database re-seeded successfully with products and admin user.');
+        db.close();
     });
 });
