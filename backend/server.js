@@ -5,9 +5,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
+const seedDatabase = require('./seed');
 require('dotenv').config();
 
 const app = express();
+// Seed database on startup
+seedDatabase().catch(err => console.error('[SEED] Fatal error during startup seeding:', err.message));
 const logFile = path.resolve(__dirname, 'server_persistent.log');
 if (!fs.existsSync(logFile)) fs.writeFileSync(logFile, '');
 
