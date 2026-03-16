@@ -70,7 +70,12 @@ const ProductDetails = () => {
 
                     <div style={{ display: 'flex', gap: '20px', marginBottom: '50px' }}>
                         <button
-                            onClick={() => addToCart(product.id)}
+                            onClick={async () => {
+                                const success = await addToCart(product.id);
+                                if (success) {
+                                    alert('Added to bag!');
+                                }
+                            }}
                             className="btn btn-primary"
                             style={{ flex: 1, padding: '20px' }}>
                             ADD TO BAG <ShoppingBag size={20} />

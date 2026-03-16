@@ -1,0 +1,128 @@
+[2026-03-16T14:41:37.136Z] --- SERVER STARTED ---
+[2026-03-16T14:41:37.138Z] Listening on port 5000
+[2026-03-16T14:41:52.628Z] [REQUEST] GET /api/cart
+[2026-03-16T14:41:52.665Z] [REQUEST] GET /api/cart
+[2026-03-16T14:41:55.648Z] [REQUEST] GET /api/cart
+[2026-03-16T14:41:55.660Z] [REQUEST] GET /api/cart
+[2026-03-16T14:41:57.106Z] [REQUEST] GET /api/products
+[2026-03-16T14:41:57.114Z] [REQUEST] GET /api/products
+[2026-03-16T14:41:58.842Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T14:42:03.149Z] [REQUEST] POST /api/cart
+[2026-03-16T14:42:03.152Z] [CART POST] Attempting to add item: product_id=180, user_id=2
+[2026-03-16T14:42:03.157Z] [CART POST] Item doesn't exist, inserting new row
+[2026-03-16T14:42:03.164Z] [CART POST] Item inserted successfully, new row ID: 36
+[2026-03-16T14:42:03.178Z] [REQUEST] GET /api/cart
+[2026-03-16T14:42:16.584Z] [REQUEST] POST /api/orders
+[2026-03-16T14:42:16.590Z] 
+--- NEW ORDER PLACED (Manual Payment) ---
+[2026-03-16T14:42:16.593Z] User ID: 2 (aditya raj)
+[2026-03-16T14:42:16.597Z] Total Price: ₹3919
+[2026-03-16T14:42:16.599Z] Transaction ID: NEF62694bd8bcba45f98c10bd40184993c2
+[2026-03-16T14:42:16.602Z] Items:
+[2026-03-16T14:42:16.604Z] - Oversized Black Hoodie (x1) at ₹3499
+[2026-03-16T14:42:16.608Z] ------------------------
+
+[2026-03-16T14:42:16.615Z] [ORDER POST] Order saved successfully, ID: 25
+[2026-03-16T14:42:16.622Z] [ORDER POST] Cart cleared for user 2
+[2026-03-16T14:42:20.736Z] [REQUEST] GET /api/cart
+[2026-03-16T14:43:45.506Z] [REQUEST] GET /api/orders/my
+[2026-03-16T14:43:45.518Z] [REQUEST] GET /api/orders/my
+[2026-03-16T14:45:21.888Z] [REQUEST] GET /api/orders/my
+[2026-03-16T14:46:40.497Z] [REQUEST] GET /api/orders/my
+[2026-03-16T14:46:40.501Z] [REQUEST] GET /api/cart
+[2026-03-16T14:46:40.510Z] [REQUEST] GET /api/orders/my
+[2026-03-16T14:46:40.513Z] [REQUEST] GET /api/cart
+[2026-03-16T14:48:32.517Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T14:48:32.524Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T14:48:34.991Z] [REQUEST] POST /api/cart
+[2026-03-16T14:48:34.992Z] [CART POST] Attempting to add item: product_id=190, user_id=2
+[2026-03-16T14:48:34.996Z] [CART POST] Item doesn't exist, inserting new row
+[2026-03-16T14:48:35.003Z] [CART POST] Item inserted successfully, new row ID: 37
+[2026-03-16T14:48:35.027Z] [REQUEST] GET /api/cart
+[2026-03-16T14:53:28.391Z] --- SERVER STARTED ---
+[2026-03-16T14:53:28.395Z] Listening on port 5000
+[2026-03-16T14:54:36.052Z] --- SERVER STARTED ---
+[2026-03-16T14:54:36.054Z] Listening on port 5000
+[2026-03-16T14:55:59.583Z] --- SERVER STARTED ---
+[2026-03-16T14:55:59.585Z] Listening on port 5000
+[2026-03-16T15:03:32.210Z] --- SERVER STARTED ---
+[2026-03-16T15:03:32.211Z] Listening on port 5000
+[2026-03-16T15:04:46.617Z] --- SERVER STARTED ---
+[2026-03-16T15:04:46.618Z] Listening on port 5000
+[2026-03-16T15:04:46.889Z] --- SERVER STARTED ---
+[2026-03-16T15:04:46.890Z] Listening on port 5000
+[2026-03-16T15:04:50.804Z] --- SERVER STARTED ---
+[2026-03-16T15:04:50.806Z] Listening on port 5000
+[2026-03-16T15:05:06.816Z] [REQUEST] GET /api/products
+[2026-03-16T15:05:27.405Z] --- SERVER STARTED ---
+[2026-03-16T15:05:27.407Z] Listening on port 5000
+[2026-03-16T15:05:39.298Z] [REQUEST] GET /api/products?category=accessories
+[2026-03-16T15:05:39.303Z] [REQUEST] GET /api/cart
+[2026-03-16T15:05:39.338Z] [REQUEST] GET /api/products?category=accessories
+[2026-03-16T15:05:39.344Z] [REQUEST] GET /api/cart
+[2026-03-16T15:05:48.149Z] [REQUEST] POST /api/cart
+[2026-03-16T15:05:48.151Z] [CART POST] Attempting to add item: product_id=222, user_id=2
+[2026-03-16T15:05:48.154Z] [CART POST] Item doesn't exist, inserting new row
+[2026-03-16T15:05:48.159Z] [CART POST] Item inserted successfully, new row ID: 38
+[2026-03-16T15:05:48.169Z] [REQUEST] GET /api/cart
+[2026-03-16T15:05:55.388Z] [REQUEST] PATCH /api/cart/37
+[2026-03-16T15:05:55.410Z] [REQUEST] GET /api/cart
+[2026-03-16T15:05:57.354Z] [REQUEST] DELETE /api/cart/37
+[2026-03-16T15:05:57.379Z] [REQUEST] GET /api/cart
+[2026-03-16T15:06:06.560Z] [REQUEST] POST /api/orders
+[2026-03-16T15:06:06.565Z] 
+--- NEW ORDER PLACED (Manual Payment) ---
+[2026-03-16T15:06:06.568Z] User ID: 2 (aditya raj)
+[2026-03-16T15:06:06.572Z] Total Price: ₹1929
+[2026-03-16T15:06:06.576Z] Transaction ID: NEF62694bd8bcba45f98
+[2026-03-16T15:06:06.581Z] Items:
+[2026-03-16T15:06:06.585Z] - Stainless Steel Belt (x1) at ₹1499
+[2026-03-16T15:06:06.588Z] ------------------------
+
+[2026-03-16T15:06:06.598Z] [ORDER POST] Order saved successfully, ID: 26
+[2026-03-16T15:06:06.607Z] [ORDER POST] Cart cleared for user 2
+[2026-03-16T15:06:09.634Z] [REQUEST] GET /api/cart
+[2026-03-16T15:06:13.878Z] [REQUEST] GET /api/orders/my
+[2026-03-16T15:06:13.899Z] [REQUEST] GET /api/orders/my
+[2026-03-16T15:07:02.805Z] [REQUEST] GET /api/products
+[2026-03-16T15:07:02.825Z] [REQUEST] GET /api/products
+[2026-03-16T15:08:48.316Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T15:08:50.866Z] [REQUEST] GET /api/products
+[2026-03-16T15:09:01.825Z] [REQUEST] GET /api/products
+[2026-03-16T15:09:01.827Z] [REQUEST] GET /api/cart
+[2026-03-16T15:09:01.839Z] [REQUEST] GET /api/products
+[2026-03-16T15:09:01.842Z] [REQUEST] GET /api/cart
+[2026-03-16T15:09:41.293Z] [REQUEST] GET /api/products
+[2026-03-16T15:09:41.296Z] [REQUEST] GET /api/cart
+[2026-03-16T15:09:41.307Z] [REQUEST] GET /api/products
+[2026-03-16T15:09:41.310Z] [REQUEST] GET /api/cart
+[2026-03-16T15:10:21.341Z] [REQUEST] GET /api/products
+[2026-03-16T15:10:21.343Z] [REQUEST] GET /api/cart
+[2026-03-16T15:10:21.355Z] [REQUEST] GET /api/products
+[2026-03-16T15:10:21.360Z] [REQUEST] GET /api/cart
+[2026-03-16T15:10:57.846Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T15:11:08.574Z] [REQUEST] GET /api/products?category=beauty
+[2026-03-16T15:11:32.778Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T15:30:57.454Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T15:30:57.457Z] [REQUEST] GET /api/cart
+[2026-03-16T15:30:57.467Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T15:30:57.469Z] [REQUEST] GET /api/cart
+[2026-03-16T16:06:17.083Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T16:06:17.087Z] [REQUEST] GET /api/cart
+[2026-03-16T16:06:17.107Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T16:06:17.114Z] [REQUEST] GET /api/cart
+[2026-03-16T18:06:43.636Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T18:06:43.664Z] [REQUEST] GET /api/cart
+[2026-03-16T18:06:43.721Z] [REQUEST] GET /api/products?category=men
+[2026-03-16T18:06:43.740Z] [REQUEST] GET /api/cart
+[2026-03-16T18:07:52.784Z] [REQUEST] GET /api/products
+[2026-03-16T18:16:03.372Z] --- SERVER STARTED ---
+[2026-03-16T18:16:03.373Z] Listening on port 5000
+[2026-03-16T18:16:23.234Z] [REQUEST] GET /api/products
+[2026-03-16T18:16:23.252Z] [REQUEST] GET /api/cart
+[2026-03-16T18:16:23.372Z] [REQUEST] GET /api/products
+[2026-03-16T18:16:23.376Z] [REQUEST] GET /api/cart
+[2026-03-16T18:16:24.093Z] [REQUEST] GET /api/products
+[2026-03-16T18:16:24.102Z] [REQUEST] GET /api/cart
+[2026-03-16T18:16:24.194Z] [REQUEST] GET /api/products
+[2026-03-16T18:16:24.217Z] [REQUEST] GET /api/cart

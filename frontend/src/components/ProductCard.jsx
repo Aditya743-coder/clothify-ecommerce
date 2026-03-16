@@ -12,21 +12,27 @@ const getReviews = (id) => `${((id * 137 + 500) % 4500 + 300).toLocaleString()}`
 
 const ProductCard = ({ product }) => {
     const { addToCart } = useCart();
+    const isMobile = useMobile(768);
+    
+    if (!product) return null;
+
     const brand = BRANDS[product.id % BRANDS.length];
-    const originalPrice = Math.round(product.price * 1.5);
-    const discount = Math.round((1 - product.price / originalPrice) * 100);
-    const rating = getRating(product.id);
-    const reviews = getReviews(product.id);
+    const originalPrice = Math.round((product.price || 0) * 1.5);
+    const discount = Math.round((1 - (product.price || 0) / (originalPrice || 1)) * 100);
+    const rating = getRating(product.id || 0);
+    const reviews = getReviews(product.id || 0);
 
     const [hovered, setHovered] = useState(false);
     const [wishlisted, setWishlisted] = useState(false);
     const [added, setAdded] = useState(false);
 
-    const handleAdd = (e) => {
+    const handleAdd = async (e) => {
         e.preventDefault();
-        addToCart(product.id);
-        setAdded(true);
-        setTimeout(() => setAdded(false), 1800);
+        const success = await addToCart(product.id);
+        if (success) {
+            setAdded(true);
+            setTimeout(() => setAdded(false), 1800);
+        }
     };
 
     return (
@@ -114,10 +120,9 @@ const ProductCard = ({ product }) => {
                     ⭐ {rating} <span style={{ color: '#aaa', fontWeight: 400 }}>({reviews})</span>
                 </div>
 
-                {/* Hover slide-up Quick Add - Visible on mobile or hover */}
                 <div style={{
                     position: 'absolute', bottom: 0, left: 0, right: 0,
-                    transform: (hovered || useMobile(768)) ? 'translateY(0)' : 'translateY(100%)',
+                    transform: (hovered || isMobile) ? 'translateY(0)' : 'translateY(100%)',
                     transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
                     background: added
                         ? 'linear-gradient(135deg, #00b09b, #22c55e)'
@@ -164,13 +169,13 @@ const ProductCard = ({ product }) => {
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px', flexWrap: 'wrap' }}>
                     <span style={{ fontWeight: 900, fontSize: '16px', color: '#0f0f0f' }}>
-                        ₹{product.price.toLocaleString()}
+                        ₹{(product.price || 0).toLocaleString()}
                     </span>
                     <span style={{ fontSize: '13px', color: '#bbb', textDecoration: 'line-through' }}>
                         ₹{originalPrice.toLocaleString()}
                     </span>
                     <span style={{ fontSize: '12px', color: '#22c55e', fontWeight: 800 }}>
-                        ₹{(originalPrice - product.price).toLocaleString()} off
+                        ₹{(originalPrice - (product.price || 0)).toLocaleString()} off
                     </span>
                 </div>
 

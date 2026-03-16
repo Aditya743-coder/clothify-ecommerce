@@ -3,24 +3,46 @@ const cors = require('cors');
 const db = require('./database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
+const logFile = path.resolve(__dirname, 'server_persistent.log');
+if (!fs.existsSync(logFile)) fs.writeFileSync(logFile, '');
+
+const debugLog = (msg) => {
+    const timestamp = new Date().toISOString();
+    try {
+        fs.appendFileSync(logFile, `[${timestamp}] ${msg}\n`);
+    } catch(e) {}
+    console.log(msg);
+};
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET || 'clothify_secret_key';
 
 app.use(cors());
 app.use(express.json());
 
-// Auth Middleware
+app.use((req, res, next) => {
+    debugLog(`[REQUEST] ${req.method} ${req.url}`);
+    next();
+});
+
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.sendStatus(401);
+    if (!token) {
+        debugLog('[AUTH] No token provided');
+        return res.sendStatus(401);
+    }
 
     jwt.verify(token, SECRET_KEY, (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (err) {
+            debugLog(`[AUTH] Token verification failed: ${err.message}`);
+            return res.sendStatus(403);
+        }
         req.user = user;
         next();
     });
@@ -124,17 +146,32 @@ app.get('/api/cart', authenticateToken, (req, res) => {
 
 app.post('/api/cart', authenticateToken, (req, res) => {
     const { product_id, quantity } = req.body;
+    debugLog(`[CART POST] Attempting to add item: product_id=${product_id}, user_id=${req.user.id}`);
 
     // Check if item exists in cart
     db.get(`SELECT * FROM cart WHERE user_id = ? AND product_id = ?`, [req.user.id, product_id], (err, row) => {
+        if (err) {
+            debugLog(`[CART POST] DB Get Error: ${err.message}`);
+            return res.status(500).json({ error: err.message });
+        }
         if (row) {
+            debugLog(`[CART POST] Item exists, updating quantity for row ID: ${row.id}`);
             db.run(`UPDATE cart SET quantity = quantity + ? WHERE id = ?`, [quantity, row.id], (err) => {
-                if (err) return res.status(500).json({ error: err.message });
+                if (err) {
+                    debugLog(`[CART POST] DB Update Error: ${err.message}`);
+                    return res.status(500).json({ error: err.message });
+                }
+                debugLog('[CART POST] Quantity updated successfully');
                 res.json({ message: 'Cart updated' });
             });
         } else {
+            debugLog(`[CART POST] Item doesn't exist, inserting new row`);
             db.run(`INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)`, [req.user.id, product_id, quantity], function (err) {
-                if (err) return res.status(500).json({ error: err.message });
+                if (err) {
+                    debugLog(`[CART POST] DB Insert Error: ${err.message}`);
+                    return res.status(500).json({ error: err.message });
+                }
+                debugLog(`[CART POST] Item inserted successfully, new row ID: ${this.lastID}`);
                 res.status(201).json({ id: this.lastID });
             });
         }
@@ -158,33 +195,70 @@ app.delete('/api/cart/:id', authenticateToken, (req, res) => {
 
 // --- ORDER ROUTES ---
 app.post('/api/orders', authenticateToken, (req, res) => {
-    const { total_price, items } = req.body;
+    const { total_price, items, transaction_id } = req.body;
     const itemsStr = JSON.stringify(items || []);
 
-    console.log('\n--- NEW ORDER PLACED ---');
-    console.log(`User ID: ${req.user.id} (${req.user.username})`);
-    console.log(`Total Price: ₹${total_price}`);
-    console.log('Items:');
-    (items || []).forEach(item => {
-        console.log(`- ${item.name} (x${item.quantity}) at ₹${item.price}`);
-    });
-    console.log('------------------------\n');
+    // Basic validation
+    if (!transaction_id || transaction_id.trim().length < 10) {
+        debugLog(`[ORDER POST] Validation failed: ID too short or missing`);
+        return res.status(400).json({ error: 'Please enter a valid Transaction ID (min 10 characters).' });
+    }
 
-    const query = `INSERT INTO orders (user_id, items, total_price) VALUES (?, ?, ?)`;
-    db.run(query, [req.user.id, itemsStr, total_price || 0], function (err) {
-        if (err) return res.status(500).json({ error: err.message });
+    debugLog('\n--- NEW ORDER PLACED (Manual Payment) ---');
+    debugLog(`User ID: ${req.user.id} (${req.user.username})`);
+    debugLog(`Total Price: ₹${total_price}`);
+    debugLog(`Transaction ID: ${transaction_id || 'N/A'}`);
+    debugLog('Items:');
+    (items || []).forEach(item => {
+        debugLog(`- ${item.name} (x${item.quantity}) at ₹${item.price}`);
+    });
+    debugLog('------------------------\n');
+
+    const query = `INSERT INTO orders (user_id, total_price, items, transaction_id, status) VALUES (?, ?, ?, ?, ?)`;
+    
+    db.run(query, [req.user.id, total_price || 0, itemsStr, transaction_id, 'waiting_for_admin_verification'], function (err) {
+        if (err) {
+            if (err.message.includes('UNIQUE constraint failed')) {
+                debugLog(`[ORDER POST] Duplicate Transaction ID detected: ${transaction_id}`);
+                return res.status(400).json({ error: 'This Transaction ID has already been used. Please enter a valid unique ID.' });
+            }
+            debugLog(`[ORDER POST] DB Insert Error: ${err.message}`);
+            return res.status(500).json({ error: err.message });
+        }
+        debugLog(`[ORDER POST] Order saved successfully, ID: ${this.lastID}`);
 
         // Clear cart after order
+        const orderId = this.lastID; // Capture lastID before the next db.run
         db.run(`DELETE FROM cart WHERE user_id = ?`, [req.user.id], (err) => {
-            res.status(201).json({ id: this.lastID, message: 'Order placed successfully' });
+            if (err) {
+                debugLog(`[ORDER POST] Error clearing cart: ${err.message}`);
+                // Even if cart clearing fails, the order was placed.
+                return res.status(201).json({ id: orderId, message: 'Order placed, but failed to clear cart.' });
+            }
+            debugLog(`[ORDER POST] Cart cleared for user ${req.user.id}`);
+            res.status(201).json({ id: orderId, message: 'Order placed' });
         });
     });
 });
 
-if (process.env.NODE_ENV !== 'production' || process.env.RENDER) {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+app.get('/api/orders/my', authenticateToken, (req, res) => {
+    const query = `SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC`;
+    db.all(query, [req.user.id], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        // Parse items JSON for each order
+        const orders = rows.map(order => ({
+            ...order,
+            items: JSON.parse(order.items || '[]')
+        }));
+        
+        res.json(orders);
     });
-}
+});
+
+app.listen(PORT, () => {
+    debugLog(`--- SERVER STARTED ---`);
+    debugLog(`Listening on port ${PORT}`);
+});
 
 module.exports = app;

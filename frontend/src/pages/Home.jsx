@@ -17,6 +17,21 @@ const useIntersection = (ref, opts = {}) => {
     return visible;
 };
 
+const useScrollProgress = () => {
+    const [progress, setProgress] = useState(0);
+    useEffect(() => {
+        const handleScroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            setProgress(scrolled);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+    return progress;
+};
+
 const Reveal = ({ children, delay = 0, style = {} }) => {
     const ref = useRef();
     const visible = useIntersection(ref);
@@ -38,7 +53,7 @@ const HERO_SLIDES = [
         img: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1800',
         eyebrow: 'NEW SEASON 2026',
         title: 'Dress\nFuture.',
-        sub: 'Bold silhouettes for the unapologetically you.',
+        sub: 'Premium cotton silhouettes for the unapologetically you.',
         cta: 'Explore Collection',
         ctaLink: '/?category=women',
         accent: '#ff3f6c',
@@ -115,11 +130,12 @@ const Marquee = ({ items }) => {
 
 /** Lookbook horizontal-scroll strip */
 const LookbookStrip = ({ navigate }) => {
+    const isMobile = useMobile(768);
     const ref = useRef();
     const scroll = (dir) => { ref.current.scrollBy({ left: dir * 320, behavior: 'smooth' }); };
     return (
         <div style={{ position: 'relative' }}>
-            <button onClick={() => scroll(-1)} style={arrowBtn('left')}><ChevronLeft size={20} /></button>
+            <button onClick={() => scroll(-1)} style={arrowBtn('left', isMobile)}><ChevronLeft size={20} /></button>
             <div ref={ref} style={{ display: 'flex', gap: '16px', overflowX: 'auto', scrollbarWidth: 'none', padding: '0 4px 8px' }}>
                 {LOOKBOOK.map((item, i) => (
                     <div key={i} onClick={() => navigate(`/?category=${item.cat}`)}
@@ -136,13 +152,13 @@ const LookbookStrip = ({ navigate }) => {
                     </div>
                 ))}
             </div>
-            <button onClick={() => scroll(1)} style={arrowBtn('right')}><ChevronRight size={20} /></button>
+            <button onClick={() => scroll(1)} style={arrowBtn('right', isMobile)}><ChevronRight size={20} /></button>
         </div>
     );
 };
 
-const arrowBtn = (side) => ({
-    position: 'absolute', [side]: '-18px', top: '50%', transform: 'translateY(-50%)',
+const arrowBtn = (side, isMobile) => ({
+    position: 'absolute', [side]: isMobile ? '4px' : '-18px', top: '50%', transform: 'translateY(-50%)',
     zIndex: 5, background: '#fff', border: 'none', borderRadius: '50%',
     width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
     boxShadow: '0 4px 14px rgba(0,0,0,0.15)', cursor: 'pointer',
@@ -248,22 +264,81 @@ const ShopTheLook = ({ navigate }) => {
 };
 
 /** Stats strip */
-const StatsBadges = () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1px', background: '#eee', border: '1px solid #eee', borderRadius: '16px', overflow: 'hidden' }}>
-        {[
-            { icon: '🚀', num: '2M+', label: 'Happy Customers' },
-            { icon: '📦', num: '50K+', label: 'Products' },
-            { icon: '⚡', num: '24hr', label: 'Express Delivery' },
-            { icon: '🔒', num: '100%', label: 'Secure Payments' },
-        ].map((s, i) => (
-            <div key={i} style={{ background: '#fff', padding: 'clamp(20px, 4vh, 28px) clamp(10px, 2vw, 20px)', textAlign: 'center' }}>
-                <div style={{ fontSize: 'clamp(22px, 4vw, 28px)', marginBottom: '6px' }}>{s.icon}</div>
-                <div style={{ fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, color: '#0f0f0f' }}>{s.num}</div>
-                <div style={{ fontSize: '10px', color: '#888', fontWeight: 600, marginTop: '4px', letterSpacing: '0.5px' }}>{s.label}</div>
-            </div>
-        ))}
+const StatsBadges = () => {
+    const isMobile = useMobile(768);
+    return (
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1px', background: '#eee', border: '1px solid #eee', borderRadius: '16px', overflow: 'hidden' }}>
+            {[
+                { icon: '🚀', num: '2M+', label: 'Happy Customers' },
+                { icon: '📦', num: '50K+', label: 'Products' },
+                { icon: '⚡', num: '24hr', label: 'Express Delivery' },
+                { icon: '🔒', num: '100%', label: 'Secure Payments' },
+            ].map((s, i) => (
+                <div key={i} style={{ background: '#fff', padding: 'clamp(20px, 4vh, 28px) clamp(10px, 2vw, 20px)', textAlign: 'center' }}>
+                    <div style={{ fontSize: 'clamp(22px, 4vw, 28px)', marginBottom: '6px' }}>{s.icon}</div>
+                    <div style={{ fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 900, color: '#0f0f0f' }}>{s.num}</div>
+                    <div style={{ fontSize: '10px', color: '#888', fontWeight: 600, marginTop: '4px', letterSpacing: '0.5px' }}>{s.label}</div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+/** Premium Scroll Progress Bar */
+const ScrollProgress = () => {
+    const progress = useScrollProgress();
+    return (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '3px', background: 'rgba(0,0,0,0.05)', zIndex: 9999 }}>
+            <div style={{ width: `${progress}%`, height: '100%', background: 'var(--accent)', transition: 'width 0.1s ease-out', boxShadow: '0 0 10px var(--accent)' }} />
+        </div>
+    );
+};
+
+/** Floating glassmorphic ornaments */
+const FloatingBackground = () => (
+    <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: -1, overflow: 'hidden', opacity: 0.4 }}>
+        <div style={{ position: 'absolute', top: '10%', left: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255,63,108,0.1) 0%, transparent 70%)', filter: 'blur(60px)', animation: 'float 20s infinite alternate' }} />
+        <div style={{ position: 'absolute', bottom: '15%', right: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(26,26,46,0.05) 0%, transparent 70%)', filter: 'blur(80px)', animation: 'float 25s infinite alternate-reverse' }} />
     </div>
 );
+
+/** Editorial Designer Spotlight */
+const DesignerSpotlight = () => {
+    const isMobile = useMobile(992);
+    return (
+        <div className="glass" style={{
+            marginTop: '100px',
+            borderRadius: '32px',
+            overflow: 'hidden',
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+            border: '1px solid rgba(0,0,0,0.05)',
+            boxShadow: '0 30px 60px rgba(0,0,0,0.04)'
+        }}>
+            <div style={{ padding: 'clamp(40px, 8vw, 80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <span style={{ fontSize: '12px', fontWeight: 900, letterSpacing: '4px', color: '#ff3f6c', textTransform: 'uppercase', display: 'block', marginBottom: '16px' }}>✦ DESIGNER SPOTLIGHT</span>
+                <h2 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 950, lineHeight: 1, marginBottom: '24px', letterSpacing: '-2px' }}>Aya <br/> Takano</h2>
+                <p style={{ fontSize: 'clamp(15px, 2vw, 18px)', color: '#555', lineHeight: 1.6, marginBottom: '32px', fontStyle: 'italic', position: 'relative', paddingLeft: '20px', borderLeft: '4px solid #ff3f6c' }}>
+                    "Fashion is the armor to survive the reality of everyday life. We design for the dreamers who walk among us."
+                </p>
+                <div style={{ display: 'flex', gap: '40px', alignItems: 'center' }}>
+                    <div>
+                        <div style={{ fontSize: '24px', fontWeight: 900 }}>2026</div>
+                        <div style={{ fontSize: '11px', color: '#888', fontWeight: 700, letterSpacing: '1px' }}>WINTER DROP</div>
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '24px', fontWeight: 900 }}>PARIS</div>
+                        <div style={{ fontSize: '11px', color: '#888', fontWeight: 700, letterSpacing: '1px' }}>STUDIO</div>
+                    </div>
+                </div>
+            </div>
+            <div style={{ height: 'clamp(400px, 60vh, 600px)', position: 'relative' }}>
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1200" alt="Designer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(255,255,255,0.1), transparent)' }} />
+            </div>
+        </div>
+    );
+};
 
 /* ─────────────────────────────── MAIN HOME ─────────────────────────────── */
 const Home = () => {
@@ -383,7 +458,9 @@ const Home = () => {
 
     // ── HOME VIEW ──
     return (
-        <div style={{ backgroundColor: '#fff' }}>
+        <div style={{ backgroundColor: '#fff', position: 'relative' }}>
+            <ScrollProgress />
+            <FloatingBackground />
 
             {/* ── HERO ── */}
             <div style={{ position: 'relative', overflow: 'hidden', height: 'clamp(400px, 75vh, 800px)' }}>
@@ -484,6 +561,11 @@ const Home = () => {
                 </Reveal>
                 <Reveal delay={0.1}>
                     <ShopTheLook navigate={navigate} />
+                </Reveal>
+
+                {/* ── DESIGNER SPOTLIGHT ── */}
+                <Reveal delay={0.2}>
+                    <DesignerSpotlight />
                 </Reveal>
             </div>
 

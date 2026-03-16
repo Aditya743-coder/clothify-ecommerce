@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import AdminAddProduct from './pages/AdminAddProduct';
+import MyOrders from './pages/MyOrders';
 import useMobile from './hooks/useMobile';
 
 const Footer = () => {
@@ -112,6 +113,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/my-orders" element={<MyOrders />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/admin/add-product" element={<AdminAddProduct />} />
               </Routes>

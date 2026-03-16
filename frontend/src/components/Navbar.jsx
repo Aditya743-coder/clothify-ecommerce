@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, LogOut, User, Search, X } from 'lucide-react';
+import { ShoppingBag, LogOut, User, Search, X, Package } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
@@ -29,7 +29,7 @@ const Navbar = () => {
         }
     };
 
-    const categories = ['men', 'women', 'kids', 'beauty'];
+    const categories = ['men', 'women', 'kids', 'beauty', 'accessories'];
 
     return (
         <>
@@ -65,6 +65,9 @@ const Navbar = () => {
                             {cat === 'home' ? 'HOME & LIVING' : cat.toUpperCase()}
                         </Link>
                     ))}
+                    {user && (
+                        <Link to="/my-orders" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '18px', fontWeight: '700', color: '#282c3f', borderBottom: '1px solid #f5f5f6', paddingBottom: '10px' }}>MY ORDERS</Link>
+                    )}
                     {user ? (
                         <div onClick={() => { logout(); setIsMenuOpen(false); }} style={{ fontSize: '18px', fontWeight: '700', color: '#ff3f6c', cursor: 'pointer' }}>LOGOUT</div>
                     ) : (
@@ -141,6 +144,11 @@ const Navbar = () => {
 
                     {/* Actions */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2vw, 15px)' }}>
+                        <div className="desktop-only" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/my-orders')}>
+                            <Package size={18} color="#282c3f" />
+                            <span style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px' }}>Orders</span>
+                        </div>
+
                         <div className="desktop-only" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/login')}>
                             <User size={18} color="#282c3f" />
                             <span style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px' }}>Profile</span>

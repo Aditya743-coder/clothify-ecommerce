@@ -25,17 +25,26 @@ export const CartProvider = ({ children }) => {
     }, [token]);
 
     const addToCart = async (product_id, quantity = 1) => {
+        console.log(`[FRONTEND] addToCart called: product_id=${product_id}, token exists: ${!!token}`);
         if (!token) {
             alert('Please login to add to cart');
-            return;
+            return false;
         }
         try {
-            await axios.post('/api/cart', { product_id, quantity }, {
+            console.log(`[FRONTEND] Sending POST /api/cart with token: ${token.substring(0, 10)}...`);
+            const res = await axios.post('/api/cart', { product_id, quantity }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            console.log('[FRONTEND] addToCart SUCCESS:', res.data);
             fetchCart();
+            return true;
         } catch (err) {
-            console.error('Error adding to cart', err);
+            console.error('[FRONTEND] addToCart ERROR:', err.response ? err.response.status : err.message);
+            if (err.response) {
+                console.error('[FRONTEND] Error Data:', err.response.data);
+            }
+            alert('Failed to add to cart. Please try again.');
+            return false;
         }
     };
 

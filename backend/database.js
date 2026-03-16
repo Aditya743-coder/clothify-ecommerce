@@ -8,10 +8,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err.message);
     } else {
-        console.log('Connected to the SQLite database.');
-        createTables();
+        console.log('Connected to the SQLite database:', dbPath);
+        db.run("PRAGMA busy_timeout = 5000"); // Ensure timeouts
+        db.run("PRAGMA journal_mode = WAL"); // Ensure WAL to fix locking
     }
 });
+
+createTables();
 
 function createTables() {
     db.serialize(() => {
@@ -53,9 +56,17 @@ function createTables() {
       items TEXT, -- JSON string of items
       total_price REAL NOT NULL,
       status TEXT DEFAULT 'pending',
+      transaction_id TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(user_id) REFERENCES users(id)
     )`);
+
+        // Index for faster searching and unique constraint
+        db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_transaction_id ON orders(transaction_id)`, (err) => {
+            if (err) {
+                console.error('[DB] Warning: Could not create unique index on transaction_id (might have duplicates):', err.message);
+            }
+        });
     });
 }
 

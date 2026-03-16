@@ -1,0 +1,3 @@
+{
+  "ignore": ["server_persistent.log", "*.log", "test_cart.js"]
+}
