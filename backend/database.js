@@ -3,19 +3,10 @@ const path = require('path');
 const fs = require('fs');
 
 const dbPath = process.env.RENDER 
-    ? '/data/clothify.db' 
+    ? (fs.existsSync('/data') ? '/data/clothify.db' : path.resolve(process.cwd(), 'clothify.db'))
     : (process.env.NODE_ENV === 'production' ? '/tmp/clothify.db' : path.resolve(__dirname, 'clothify.db'));
 
-// Ensure directory exists
-const dbDir = path.dirname(dbPath);
-if (!fs.existsSync(dbDir)) {
-    try {
-        fs.mkdirSync(dbDir, { recursive: true });
-        console.log('Created database directory:', dbDir);
-    } catch (e) {
-        console.error('Failed to create database directory:', dbDir, e.message);
-    }
-}
+console.log('[DB] Resolved Database Path:', dbPath);
 
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
