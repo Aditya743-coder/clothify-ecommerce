@@ -1,9 +1,22 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
 const dbPath = process.env.RENDER 
     ? '/data/clothify.db' 
     : (process.env.NODE_ENV === 'production' ? '/tmp/clothify.db' : path.resolve(__dirname, 'clothify.db'));
+
+// Ensure directory exists
+const dbDir = path.dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+    try {
+        fs.mkdirSync(dbDir, { recursive: true });
+        console.log('Created database directory:', dbDir);
+    } catch (e) {
+        console.error('Failed to create database directory:', dbDir, e.message);
+    }
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err.message);
