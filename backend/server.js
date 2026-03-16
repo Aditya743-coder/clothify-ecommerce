@@ -25,7 +25,10 @@ const SECRET_KEY = process.env.JWT_SECRET || 'clothify_secret_key';
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => res.send('Clothify Backend Live'));
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+
+debugLog(`[STARTUP] Environment: RENDER=${process.env.RENDER}, PORT=${process.env.PORT}, NODE_ENV=${process.env.NODE_ENV}`);
 
 app.get('/api/debug/db', (req, res) => {
     const dbPath = process.env.RENDER ? '/data/clothify.db' : (process.env.NODE_ENV === 'production' ? '/tmp/clothify.db' : path.resolve(__dirname, 'clothify.db'));
