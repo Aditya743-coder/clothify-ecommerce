@@ -1,5 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// ULTRA-FAST HEALTH CHECK (No dependencies)
+app.get('/health', (req, res) => res.json({ status: 'ok', source: 'top-of-file' }));
+app.get('/', (req, res) => res.send('Clothify Backend Live (Top)'));
+
 const db = require('./database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -8,7 +16,6 @@ const fs = require('fs');
 const seedDatabase = require('./seed');
 require('dotenv').config();
 
-const app = express();
 const logFile = path.resolve(__dirname, 'server_persistent.log');
 if (!fs.existsSync(logFile)) fs.writeFileSync(logFile, '');
 
@@ -22,11 +29,6 @@ const debugLog = (msg) => {
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET || 'clothify_secret_key';
 
-app.use(cors());
-app.use(express.json());
-
-app.get('/', (req, res) => res.send('Clothify Backend Live'));
-app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
 debugLog(`[STARTUP] Environment: RENDER=${process.env.RENDER}, PORT=${process.env.PORT}, NODE_ENV=${process.env.NODE_ENV}`);
 
