@@ -30,6 +30,17 @@ app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().
 
 debugLog(`[STARTUP] Environment: RENDER=${process.env.RENDER}, PORT=${process.env.PORT}, NODE_ENV=${process.env.NODE_ENV}`);
 
+app.get('/api/debug/env', (req, res) => {
+    res.json({
+        RENDER: process.env.RENDER,
+        PORT: process.env.PORT,
+        NODE_ENV: process.env.NODE_ENV,
+        cwd: process.cwd(),
+        dir: __dirname,
+        time: new Date().toISOString()
+    });
+});
+
 app.get('/api/debug/db', (req, res) => {
     const dbPath = process.env.RENDER ? '/data/clothify.db' : (process.env.NODE_ENV === 'production' ? '/tmp/clothify.db' : path.resolve(__dirname, 'clothify.db'));
     db.get(`SELECT COUNT(*) as count FROM products`, (err, row) => {
