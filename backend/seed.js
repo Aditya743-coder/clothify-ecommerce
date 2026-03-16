@@ -283,6 +283,7 @@ const products = [
     }
 ];
 
+console.log('[SEED] Starting database seeding...');
 db.serialize(() => {
     db.run(`DELETE FROM products`);
 
@@ -297,6 +298,6 @@ db.serialize(() => {
             const adminHash = bcrypt.hashSync('admin123', 10);
             db.run(`INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)`, ['admin', 'admin@clothify.com', adminHash, 1]);
         }
-        console.log('Database re-seeded with lowercase gender-based categories.');
+        console.log('[SEED] Database re-seeded successfully with products and admin user.');
     });
 });
