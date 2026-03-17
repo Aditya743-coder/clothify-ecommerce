@@ -68,7 +68,7 @@ const Navbar = () => {
                     {user && (
                         <Link to="/my-orders" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '18px', fontWeight: '700', color: '#282c3f', borderBottom: '1px solid #f5f5f6', paddingBottom: '10px' }}>MY ORDERS</Link>
                     )}
-                    {user?.is_admin && (
+                    {!!user?.is_admin && (
                         <Link to="/admin/dashboard" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '18px', fontWeight: '700', color: '#ff3f6c', borderBottom: '1px solid #f5f5f6', paddingBottom: '10px' }}>ADMIN PANEL</Link>
                     )}
                     {user ? (
@@ -173,7 +173,7 @@ const Navbar = () => {
                             )}
                         </Link>
 
-                        {user?.is_admin && (
+                        {!!user?.is_admin && (
                             <div className="desktop-only" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff3f6c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                                 <span style={{ fontSize: '10px', fontWeight: '700', marginTop: '2px', color: '#ff3f6c' }}>Admin</span>
