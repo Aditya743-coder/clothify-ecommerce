@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import AdminAddProduct from './pages/AdminAddProduct';
+import AdminDashboard from './pages/AdminDashboard';
 import MyOrders from './pages/MyOrders';
 import useMobile from './hooks/useMobile';
 
@@ -116,6 +117,7 @@ const App = () => {
                 <Route path="/my-orders" element={<MyOrders />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/admin/add-product" element={<AdminAddProduct />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
               </Routes>
             </div>
             <Footer />
