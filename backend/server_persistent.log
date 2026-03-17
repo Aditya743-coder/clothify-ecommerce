@@ -276,3 +276,8 @@
 [2026-03-17T19:36:36.175Z] Listening on port 5000
 [2026-03-17T19:36:36.175Z] [STARTUP] Triggering background seeding...
 [2026-03-17T19:36:36.179Z] [STARTUP] Seeding check complete.
+[2026-03-17T19:41:36.865Z] [REQUEST] GET /api/products
+[2026-03-17T19:41:36.884Z] [REQUEST] GET /api/products
+[2026-03-17T19:41:38.889Z] [REQUEST] GET /api/products?category=kids
+[2026-03-17T19:41:45.784Z] [REQUEST] GET /api/products/201
+[2026-03-17T19:41:45.795Z] [REQUEST] GET /api/products/201
