@@ -151,6 +151,39 @@ app.get('/api/products/:id', (req, res) => {
     });
 });
 
+// --- ADMIN ROUTES (MANAGEMENT) ---
+app.get('/api/admin/users', authenticateToken, (req, res) => {
+    if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });
+    
+    db.all(`SELECT id, username, email, is_admin FROM users`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+});
+
+app.get('/api/admin/products', authenticateToken, (req, res) => {
+    if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });
+    
+    db.all(`SELECT * FROM products`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+});
+
+app.get('/api/admin/orders', authenticateToken, (req, res) => {
+    if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });
+    
+    db.all(`SELECT orders.*, users.username, users.email FROM orders JOIN users ON orders.user_id = users.id ORDER BY created_at DESC`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        const orders = rows.map(order => ({
+            ...order,
+            items: JSON.parse(order.items || '[]')
+        }));
+        res.json(orders);
+    });
+});
+
 // Admin Route to add product
 app.post('/api/products', authenticateToken, (req, res) => {
     if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });

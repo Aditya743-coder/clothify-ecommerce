@@ -126,3 +126,132 @@
 [2026-03-16T18:16:24.102Z] [REQUEST] GET /api/cart
 [2026-03-16T18:16:24.194Z] [REQUEST] GET /api/products
 [2026-03-16T18:16:24.217Z] [REQUEST] GET /api/cart
+[2026-03-16T19:26:39.540Z] --- SERVER STARTED ---
+[2026-03-16T19:26:39.543Z] Listening on port 5000
+[2026-03-16T19:27:13.266Z] --- SERVER STARTED ---
+[2026-03-16T19:27:13.268Z] Listening on port 5000
+[2026-03-16T19:42:22.538Z] --- SERVER STARTED ---
+[2026-03-16T19:42:22.540Z] Listening on port 5000
+[2026-03-16T19:47:45.955Z] [REQUEST] GET /api/products
+[2026-03-16T19:47:45.960Z] [REQUEST] GET /api/cart
+[2026-03-16T19:47:46.003Z] [REQUEST] GET /api/products
+[2026-03-16T19:47:46.007Z] [REQUEST] GET /api/cart
+[2026-03-16T19:47:52.782Z] [REQUEST] GET /api/products
+[2026-03-16T19:47:52.785Z] [REQUEST] GET /api/cart
+[2026-03-16T19:47:52.798Z] [REQUEST] GET /api/products
+[2026-03-16T19:47:52.801Z] [REQUEST] GET /api/cart
+[2026-03-16T19:47:54.145Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T19:48:53.832Z] --- SERVER STARTED ---
+[2026-03-16T19:48:53.834Z] Listening on port 5000
+[2026-03-16T19:51:21.760Z] --- SERVER STARTED ---
+[2026-03-16T19:51:21.762Z] Listening on port 5000
+[2026-03-16T19:51:36.030Z] --- SERVER STARTED ---
+[2026-03-16T19:51:36.031Z] Listening on port 5000
+[2026-03-16T19:51:59.403Z] --- SERVER STARTED ---
+[2026-03-16T19:51:59.405Z] Listening on port 5000
+[2026-03-16T19:54:16.640Z] --- SERVER STARTED ---
+[2026-03-16T19:54:16.642Z] Listening on port 5000
+[2026-03-16T19:54:16.644Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:54:16.652Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:54:28.879Z] --- SERVER STARTED ---
+[2026-03-16T19:54:28.881Z] Listening on port 5000
+[2026-03-16T19:54:28.882Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:54:28.887Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:56:05.313Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T19:56:05.318Z] --- SERVER STARTED ---
+[2026-03-16T19:56:05.319Z] Listening on port 5000
+[2026-03-16T19:56:05.320Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:56:05.328Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:56:57.395Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T19:56:57.401Z] --- SERVER STARTED ---
+[2026-03-16T19:56:57.402Z] Listening on port 5000
+[2026-03-16T19:56:57.403Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:56:57.409Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:58:31.995Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T19:58:32.001Z] --- SERVER STARTED ---
+[2026-03-16T19:58:32.002Z] Listening on port 5000
+[2026-03-16T19:58:32.003Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:58:32.008Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:59:32.609Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T19:59:32.613Z] --- SERVER STARTED ---
+[2026-03-16T19:59:32.614Z] Listening on port 5000
+[2026-03-16T19:59:32.616Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:59:32.623Z] [STARTUP] Seeding check complete.
+[2026-03-16T19:59:40.259Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T19:59:40.264Z] --- SERVER STARTED ---
+[2026-03-16T19:59:40.265Z] Listening on port 5000
+[2026-03-16T19:59:40.265Z] [STARTUP] Triggering background seeding...
+[2026-03-16T19:59:40.271Z] [STARTUP] Seeding check complete.
+[2026-03-16T20:10:29.942Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-16T20:10:29.952Z] --- SERVER STARTED ---
+[2026-03-16T20:10:29.953Z] Listening on port 5000
+[2026-03-16T20:10:29.954Z] [STARTUP] Triggering background seeding...
+[2026-03-16T20:10:29.963Z] [STARTUP] Seeding check complete.
+[2026-03-16T20:13:34.644Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T20:13:34.949Z] [REQUEST] GET /api/products?category=women
+[2026-03-16T20:13:36.310Z] [REQUEST] GET /api/products
+[2026-03-16T20:13:47.661Z] [REQUEST] POST /api/auth/login
+[2026-03-16T20:13:47.946Z] [REQUEST] GET /api/cart
+[2026-03-16T20:13:47.985Z] [REQUEST] GET /api/products
+[2026-03-16T20:13:48.676Z] [REQUEST] GET /api/products
+[2026-03-16T20:13:51.613Z] [REQUEST] GET /api/products?category=kids
+[2026-03-16T20:13:55.195Z] [REQUEST] POST /api/cart
+[2026-03-16T20:13:55.203Z] [CART POST] Attempting to add item: product_id=200, user_id=2
+[2026-03-16T20:13:55.207Z] [CART POST] Item doesn't exist, inserting new row
+[2026-03-16T20:13:55.216Z] [CART POST] Item inserted successfully, new row ID: 39
+[2026-03-16T20:13:55.244Z] [REQUEST] GET /api/cart
+[2026-03-16T20:14:11.617Z] [REQUEST] POST /api/orders
+[2026-03-16T20:14:11.621Z] 
+--- NEW ORDER PLACED (Manual Payment) ---
+[2026-03-16T20:14:11.624Z] User ID: 2 (aditya raj)
+[2026-03-16T20:14:11.629Z] Total Price: ₹1145
+[2026-03-16T20:14:11.632Z] Transaction ID: 56735646865
+[2026-03-16T20:14:11.633Z] Items:
+[2026-03-16T20:14:11.637Z] - Dinosaur Print Tee (x1) at ₹799
+[2026-03-16T20:14:11.641Z] ------------------------
+
+[2026-03-16T20:14:11.668Z] [ORDER POST] Order saved successfully, ID: 27
+[2026-03-16T20:14:11.675Z] [ORDER POST] Cart cleared for user 2
+[2026-03-16T20:14:15.785Z] [REQUEST] GET /api/cart
+[2026-03-16T20:14:20.819Z] [REQUEST] GET /api/orders/my
+[2026-03-16T20:14:20.837Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:10:13.409Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-17T15:10:13.414Z] --- SERVER STARTED ---
+[2026-03-17T15:10:13.414Z] Listening on port 5000
+[2026-03-17T15:10:13.415Z] [STARTUP] Triggering background seeding...
+[2026-03-17T15:10:13.436Z] [STARTUP] Seeding check complete.
+[2026-03-17T15:10:33.897Z] [REQUEST] GET /api/products
+[2026-03-17T15:10:33.901Z] [REQUEST] GET /api/cart
+[2026-03-17T15:10:33.950Z] [REQUEST] GET /api/products
+[2026-03-17T15:10:33.954Z] [REQUEST] GET /api/cart
+[2026-03-17T15:10:37.688Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:10:37.699Z] [REQUEST] GET /api/cart
+[2026-03-17T15:10:37.723Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:10:37.739Z] [REQUEST] GET /api/cart
+[2026-03-17T15:11:00.648Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:11:00.670Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:14:54.531Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:14:54.534Z] [REQUEST] GET /api/cart
+[2026-03-17T15:14:54.595Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:14:54.598Z] [REQUEST] GET /api/cart
+[2026-03-17T15:15:00.945Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:15:00.970Z] [REQUEST] GET /api/cart
+[2026-03-17T15:15:01.006Z] [REQUEST] GET /api/orders/my
+[2026-03-17T15:15:01.180Z] [REQUEST] GET /api/cart
+[2026-03-17T15:15:13.213Z] [REQUEST] GET /api/products
+[2026-03-17T15:15:13.222Z] [REQUEST] GET /api/products
+[2026-03-17T17:37:27.681Z] [REQUEST] GET /api/products
+[2026-03-17T17:37:27.723Z] [REQUEST] GET /api/cart
+[2026-03-17T17:37:27.800Z] [REQUEST] GET /api/products
+[2026-03-17T17:37:27.820Z] [REQUEST] GET /api/cart
+[2026-03-17T17:37:30.229Z] [REQUEST] GET /api/orders/my
+[2026-03-17T17:37:30.239Z] [REQUEST] GET /api/cart
+[2026-03-17T17:37:30.259Z] [REQUEST] GET /api/orders/my
+[2026-03-17T17:37:30.271Z] [REQUEST] GET /api/cart
+[2026-03-17T17:43:28.787Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-17T17:43:28.795Z] --- SERVER STARTED ---
+[2026-03-17T17:43:28.796Z] Listening on port 5000
+[2026-03-17T17:43:28.796Z] [STARTUP] Triggering background seeding...
+[2026-03-17T17:43:28.803Z] [STARTUP] Seeding check complete.
+[2026-03-17T18:22:14.511Z] [REQUEST] GET /api/products
+[2026-03-17T18:22:14.565Z] [REQUEST] GET /api/products
