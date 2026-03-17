@@ -184,6 +184,16 @@ app.get('/api/admin/orders', authenticateToken, (req, res) => {
     });
 });
 
+app.get('/api/admin/cart', authenticateToken, (req, res) => {
+    if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });
+
+    db.all(`SELECT cart.id, cart.user_id, users.username, users.email, cart.product_id, products.name as product_name, products.price, cart.quantity FROM cart JOIN users ON cart.user_id = users.id JOIN products ON cart.product_id = products.id`, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+});
+
+
 // Admin Route to add product
 app.post('/api/products', authenticateToken, (req, res) => {
     if (!req.user.is_admin) return res.status(403).json({ error: 'Admin access required' });

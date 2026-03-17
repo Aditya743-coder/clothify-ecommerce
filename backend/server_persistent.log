@@ -271,3 +271,8 @@
 [2026-03-17T19:24:58.931Z] [REQUEST] GET /api/products?category=accessories
 [2026-03-17T19:24:58.958Z] [REQUEST] GET /api/products?category=accessories
 [2026-03-17T19:25:04.209Z] [REQUEST] GET /api/products
+[2026-03-17T19:36:36.170Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-17T19:36:36.174Z] --- SERVER STARTED ---
+[2026-03-17T19:36:36.175Z] Listening on port 5000
+[2026-03-17T19:36:36.175Z] [STARTUP] Triggering background seeding...
+[2026-03-17T19:36:36.179Z] [STARTUP] Seeding check complete.
