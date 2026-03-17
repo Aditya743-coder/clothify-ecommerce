@@ -283,35 +283,58 @@ const products = [
     }
 ];
 
+const ensureAdmin = () => {
+    return new Promise((resolve) => {
+        db.get(`SELECT * FROM users WHERE username = 'admin'`, (err, row) => {
+            if (err) {
+                console.error('[SEED] Error checking admin user:', err.message);
+                return resolve();
+            }
+            if (!row) {
+                const adminHash = bcrypt.hashSync('admin123', 10);
+                db.run(`INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)`,
+                    ['admin', 'admin@clothify.com', adminHash, 1],
+                    (err) => {
+                        if (err) console.error('[SEED] Error creating admin:', err.message);
+                        else console.log('[SEED] Admin user created: admin@clothify.com / admin123');
+                        resolve();
+                    }
+                );
+            } else {
+                console.log('[SEED] Admin user already exists.');
+                resolve();
+            }
+        });
+    });
+};
+
 const seedDatabase = () => {
     return new Promise((resolve, reject) => {
         console.log('[SEED] Checking if database needs seeding...');
-        db.get(`SELECT COUNT(*) as count FROM products`, (err, row) => {
-            if (err) {
-                console.error('[SEED] Error checking product count:', err.message);
-                return reject(err);
-            }
 
-            if (row && row.count > 0) {
-                console.log('[SEED] Database already contains products. Skipping seeding.');
-                return resolve();
-            }
+        // Always ensure admin exists first
+        ensureAdmin().then(() => {
+            db.get(`SELECT COUNT(*) as count FROM products`, (err, row) => {
+                if (err) {
+                    console.error('[SEED] Error checking product count:', err.message);
+                    return reject(err);
+                }
 
-            console.log('[SEED] Database is empty. Starting seeding...');
-            db.serialize(() => {
-                const stmt = db.prepare(`INSERT INTO products (name, description, price, category, sub_category, image_url, stock) VALUES (?, ?, ?, ?, ?, ?, ?)`);
-                products.forEach(p => {
-                    stmt.run(p.name, p.description, p.price, p.category, p.sub_category, p.image_url, p.stock);
-                });
-                stmt.finalize();
+                if (row && row.count > 0) {
+                    console.log('[SEED] Database already contains products. Skipping product seeding.');
+                    return resolve();
+                }
 
-                db.get(`SELECT * FROM users WHERE username = 'admin'`, (err, row) => {
-                    if (!row) {
-                        const adminHash = bcrypt.hashSync('admin123', 10);
-                        db.run(`INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)`, ['admin', 'admin@clothify.com', adminHash, 1]);
-                    }
-                    console.log('[SEED] Database seeding completed successfully.');
-                    resolve();
+                console.log('[SEED] Database is empty. Starting product seeding...');
+                db.serialize(() => {
+                    const stmt = db.prepare(`INSERT INTO products (name, description, price, category, sub_category, image_url, stock) VALUES (?, ?, ?, ?, ?, ?, ?)`);
+                    products.forEach(p => {
+                        stmt.run(p.name, p.description, p.price, p.category, p.sub_category, p.image_url, p.stock);
+                    });
+                    stmt.finalize(() => {
+                        console.log('[SEED] Products seeded successfully.');
+                        resolve();
+                    });
                 });
             });
         });

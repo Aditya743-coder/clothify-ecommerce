@@ -260,3 +260,11 @@
 [2026-03-17T19:12:32.817Z] Listening on port 5000
 [2026-03-17T19:12:32.817Z] [STARTUP] Triggering background seeding...
 [2026-03-17T19:12:32.821Z] [STARTUP] Seeding check complete.
+[2026-03-17T19:12:45.370Z] [REQUEST] GET /api/products
+[2026-03-17T19:12:45.388Z] [REQUEST] GET /api/products
+[2026-03-17T19:12:48.529Z] [REQUEST] GET /api/products?category=accessories
+[2026-03-17T19:18:52.050Z] [STARTUP] Environment: RENDER=undefined, PORT=undefined, NODE_ENV=undefined
+[2026-03-17T19:18:52.054Z] --- SERVER STARTED ---
+[2026-03-17T19:18:52.054Z] Listening on port 5000
+[2026-03-17T19:18:52.055Z] [STARTUP] Triggering background seeding...
+[2026-03-17T19:18:52.061Z] [STARTUP] Seeding check complete.
